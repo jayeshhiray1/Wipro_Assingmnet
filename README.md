@@ -1,5 +1,5 @@
 # WIPRO TASK : 
-Diaplay list of "About Canada" items.
+Diaplay list of "About Canada" items using Android Kotlin.
 
 1.      UI rendering of images and text displayed.
 
