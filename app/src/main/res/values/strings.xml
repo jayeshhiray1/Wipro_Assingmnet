@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Wipro Assingmnet</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="no_internet">No internet connection</string>
+    <string name="error_network">Network issue</string>
+    <string name="error_nodata">No Data Found</string>
+    <string name="nomore_data">No more data to load!!</string>
+    <string name="loading">Loading...</string>
+</resources>
