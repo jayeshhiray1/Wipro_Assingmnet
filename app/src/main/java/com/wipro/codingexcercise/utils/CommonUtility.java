@@ -68,7 +68,6 @@ import javax.crypto.spec.SecretKeySpec;
 import com.wipro.codingexcercise.R;
 
 
-
 public class CommonUtility {
     public static final long MAX_SIZE = 5 * 1024 * 1024L; // 4MiB
     public static final int UNBOUNDED = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
@@ -894,8 +893,5 @@ public class CommonUtility {
         // Encrypt and save the image
         // saveFile(encrypt(key,baos.toByteArray()),"enimg.png");
     }
-    /****************** EXTRAS ********************/
-//    http://www.worldbestlearningcenter.com/tips/Android-encrypt-and-decrypt-a-file.htm
 
-    // http://www.coderzheaven.com/2013/03/19/encrypt-decrypt-file-aes-algorithm-android/
 }

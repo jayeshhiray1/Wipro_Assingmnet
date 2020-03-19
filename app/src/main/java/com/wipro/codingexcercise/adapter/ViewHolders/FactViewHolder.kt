@@ -26,7 +26,7 @@ class FactViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         tvDesc.text = data.description
         tvTitle.text = data.title
 
-
+//Load images in list
         Glide.with(imageviewFact.context)
                 .load(data.imageHref)
                 .apply(RequestOptions()

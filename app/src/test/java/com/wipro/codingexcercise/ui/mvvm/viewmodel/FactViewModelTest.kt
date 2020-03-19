@@ -35,10 +35,6 @@ class FactViewModelTest {
 
     //  private lateinit var instrumentationCtx: Context
 
-    /**
-     * DUMMY Data
-     *
-     */
 
     private val ROWS = arrayListOf<Rows>(Rows("Title1", "Description1", ""),
             Rows("Title1", "Description1", ""), Rows("Title1", "Description1", ""))
