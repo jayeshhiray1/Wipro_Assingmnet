@@ -33,9 +33,6 @@ class FactViewModelTest {
 
     lateinit var mTestScheduler: TestScheduler
 
-    //  private lateinit var instrumentationCtx: Context
-
-
     private val ROWS = arrayListOf<Rows>(Rows("Title1", "Description1", ""),
             Rows("Title1", "Description1", ""), Rows("Title1", "Description1", ""))
 
