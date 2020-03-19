@@ -1,2 +1,2 @@
-*.kt linguist-detectable=true
-*.xml linguist-detectable=false
+gradlew binary
+gradlew.bat binary
