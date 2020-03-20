@@ -7,15 +7,14 @@ import android.os.Message
 import android.support.test.InstrumentationRegistry
 import android.support.test.espresso.Espresso
 import android.support.test.espresso.Espresso.onData
-import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.action.ViewActions.click
-import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.contrib.RecyclerViewActions
 import android.support.test.espresso.matcher.ViewMatchers
 import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.test.filters.LargeTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
+import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -23,12 +22,10 @@ import com.wipro.codingexcercise.HomeActivity
 import com.wipro.codingexcercise.R
 import com.wipro.codingexcercise.adapter.ViewHolders.FactViewHolder
 import com.wipro.codingexcercise.ui.mvvm.view.MvvmFactFragment
-import com.wipro.codingexcercise.ui.mvvm.viewmodel.FactViewModel
 import com.wipro.codingexcercise.utils.CommonUtility
 import org.hamcrest.CoreMatchers
 import org.hamcrest.Description
 import org.hamcrest.Matcher
-import org.hamcrest.Matchers.allOf
 import org.hamcrest.TypeSafeMatcher
 import org.junit.After
 import org.junit.Assert.assertTrue
@@ -73,7 +70,7 @@ class MvvmFactFragmentUITest {
 
         object : Handler(Looper.getMainLooper()) {
             override fun handleMessage(message: Message) {
-                if (CommonUtility.isInternetAvailable()) {
+                if (CommonUtility.isInternetAvailable(instrumentationCtx as AppCompatActivity)) {
                     Toast.makeText(instrumentationCtx, "Internet Available", Toast.LENGTH_SHORT).show()
                 } else {
                     Toast.makeText(instrumentationCtx, "No Internet Available", Toast.LENGTH_SHORT).show()

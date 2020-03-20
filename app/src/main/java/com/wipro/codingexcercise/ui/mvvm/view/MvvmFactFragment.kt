@@ -6,6 +6,7 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.FragmentActivity
 import android.support.v4.widget.SwipeRefreshLayout
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -58,7 +59,7 @@ class MvvmFactFragment : BaseFragment()  {
 
         factViewModel = ViewModelProviders.of(this).get(FactViewModel::class.java)
 
-        if (CommonUtility.isInternetAvailable(Objects.requireNonNull<FragmentActivity>(activity))) {
+        if (CommonUtility.isInternetAvailable(activity as AppCompatActivity)) {
             showProgressBar()
         } else {
             hideProgressBar()
@@ -74,7 +75,7 @@ class MvvmFactFragment : BaseFragment()  {
 
         lifecycle.addObserver(factViewModel)
 
-        if (CommonUtility.isInternetAvailable(Objects.requireNonNull<FragmentActivity>(activity))) {
+        if (CommonUtility.isInternetAvailable(activity as AppCompatActivity)) {
             showProgressBar()
         } else {
             hideProgressBar()

@@ -17,7 +17,7 @@ class RetrofitHelper {
 
     companion object {
 
-        public fun getInstance(context: Context = MyApplication.getInstance()): Retrofit {
+        public fun getInstance(context: Context = MyApplication.getInstance()!!): Retrofit {
 
 
             val okHttpClient = OkHttpClient.Builder()

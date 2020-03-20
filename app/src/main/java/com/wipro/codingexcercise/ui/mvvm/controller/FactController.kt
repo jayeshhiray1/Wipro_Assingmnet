@@ -37,17 +37,17 @@ open class FactController(context: Context, private val viewModelInterface: View
 
                 if (factsDto != null &&
                         factsDto.rows != null &&
-                        factsDto.rows.size > 0) {
+                        factsDto.rows!!.size > 0) {
                     /**
                      * Filter out the items which have empty title and description
                      */
-                    val filteredMap:List<Rows> = factsDto.rows.filter {
-                        !TextUtils.isEmpty(it.description) &&  !TextUtils.isEmpty(it.title)
-                    }
+                    val filteredMap:List<Rows> = factsDto.rows!!.filter {
+                        !TextUtils.isEmpty(it?.description) &&  !TextUtils.isEmpty(it?.title)
+                    } as List<Rows>
                     /**
                      * passing data to Viewmodel
                      */
-                    viewModelInterface.setFacts(factsDto.title, factsDto.rows as ArrayList<Rows>)
+                    factsDto.title?.let { viewModelInterface.setFacts(it, factsDto.rows as ArrayList<Rows>) }
                 } else {
                     viewModelInterface.setMessage("No Data Found")
                 }

@@ -57,12 +57,6 @@ class FactViewModelTest {
         assertFalse("IS internet Present", NET_PRESENTFALSE)
     }
 
-    @Test
-    fun testInternetConnection() {
-
-        assertFalse("No Internet Conncection Available",!CommonUtility.isInternetAvailable())
-
-    }
 
     @Test
     fun testFailGettingFactList() {

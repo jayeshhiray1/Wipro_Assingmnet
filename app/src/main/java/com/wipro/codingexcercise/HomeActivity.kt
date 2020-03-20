@@ -1,9 +1,11 @@
 package com.wipro.codingexcercise
 
+import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import com.wipro.codingexcercise.app.MyApplication
 import com.wipro.codingexcercise.ui.mvvm.view.MvvmFactFragment
 
 /**
@@ -14,6 +16,8 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+
+        //val context: Context = MyApplication.applicationContext()
 
     //MVVM pattern defined below
          loadMVVMFragment(MvvmFactFragment())

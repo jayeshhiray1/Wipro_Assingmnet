@@ -3,8 +3,12 @@ package com.wipro.codingexcercise.ui.mvvm.viewmodel
 import android.app.Application
 import android.arch.lifecycle.*
 import android.content.Context
+import android.support.v4.app.FragmentActivity
+import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
 import android.util.Log
+import com.wipro.codingexcercise.HomeActivity
+import com.wipro.codingexcercise.app.MyApplication
 import com.wipro.codingexcercise.model.Rows
 import com.wipro.codingexcercise.ui.mvvm.controller.FactController
 import com.wipro.codingexcercise.ui.mvvm.controller.ViewModelInterface
@@ -64,12 +68,12 @@ open class FactViewModel(application: Application) : AndroidViewModel(applicatio
      * controller class
      */
     fun getFactListFromController(): Boolean {
-        if (CommonUtility.isInternetAvailable(mContext)) {
+        if (CommonUtility.isInternetAvailable(mContext as AppCompatActivity)) {
             factController.getAllFacts()
         } else {
             setMessage("No Internet Connection")
         }
-        return CommonUtility.isInternetAvailable(mContext)
+        return CommonUtility.isInternetAvailable(mContext as AppCompatActivity)
     }
 
     /**
@@ -80,7 +84,7 @@ open class FactViewModel(application: Application) : AndroidViewModel(applicatio
 
         this.title.value = title
 
-        if (!CommonUtility.isInternetAvailable(mContext)) {
+        if (!CommonUtility.isInternetAvailable(mContext as AppCompatActivity)) {
             setMessage("No Internet Connection")
         } else if ((rowsList != null && rowsList.size == 0) || TextUtils.isEmpty(title) || rowsList == null) {
             setMessage("Server Error, no data found")
