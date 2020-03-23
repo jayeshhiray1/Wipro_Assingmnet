@@ -20,7 +20,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.dialogfragment_factdetails.*
 import com.wipro.codingexcercise.R
-import com.wipro.codingexcercise.model.Rows
+import com.wipro.codingexcercise.model.Row
 import com.wipro.codingexcercise.utils.Constants
 import java.util.*
 
@@ -67,7 +67,7 @@ class FactDetailsDialogFragment : DialogFragment() {
 
         imageViewBack!!.setOnClickListener { dismissAllowingStateLoss() }
 
-        textViewTitle?.setText("Fact Details")
+        textViewTitle?.text = "Fact Details"
 
         return view
     }
@@ -77,9 +77,9 @@ class FactDetailsDialogFragment : DialogFragment() {
 
         val bundle = arguments
 
-        val rows: Rows = bundle?.getParcelable(Constants.BundleKeys.KEY_FACT) as Rows
+        val rows: Row = bundle?.getParcelable(Constants.BundleKeys.KEY_FACT) as Row
 
-        rows?.let {
+        rows.let {
             appCompatTextView?.text = rows.title
             testViewDesc?.text = rows.description
 
@@ -97,35 +97,14 @@ class FactDetailsDialogFragment : DialogFragment() {
 
     }
 
-
-    protected fun hideProgressBar() {
-        if (mProgressBar != null)
-            mProgressBar!!.visibility = View.GONE
-    }
-
-    protected fun showProgressBar() {
-        if (mProgressBar != null)
-            mProgressBar!!.visibility = View.VISIBLE
-    }
-
-
-    protected fun setTitle(title: String) {
-        textViewTitle!!.text = title
-    }
-
     override fun onStart() {
         super.onStart()
         val dialog = dialog
         if (dialog != null) {
-            dialog.window!!.setWindowAnimations(
+            dialog.window?.setWindowAnimations(
                     R.style.styleDialogFragment)
-            dialog.window!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-            dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                dialog?.window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-                dialog?.window?.setStatusBarColor(ContextCompat.getColor(activity as AppCompatActivity, R.color.colorPrimaryDark));
-            }
+            dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         }
     }

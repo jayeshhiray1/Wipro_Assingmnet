@@ -1,17 +1,13 @@
 package com.wipro.codingexcercise.ui.mvvm.viewmodel
 
-import android.os.Handler
-import android.os.Looper
-import android.os.Message
-import com.wipro.codingexcercise.model.FactsDto
-import com.wipro.codingexcercise.model.Rows
+import android.app.Application
+import com.wipro.codingexcercise.model.FactData
+import com.wipro.codingexcercise.model.Row
 import com.wipro.codingexcercise.ui.mvvm.controller.FactController
-import com.wipro.codingexcercise.utils.CommonUtility
 import com.wipro.codingexcercise.utils.network.APIInterface
 import com.wipro.codingexcercise.utils.network.RetrofitHelper
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.TestScheduler
-import io.reactivex.subscribers.TestSubscriber
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
@@ -19,6 +15,7 @@ import org.junit.Test
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import java.io.IOException
+import kotlin.coroutines.coroutineContext
 
 
 class FactViewModelTest {
@@ -27,14 +24,17 @@ class FactViewModelTest {
     lateinit var factController: FactController
 
     @Mock
+    lateinit var context: Application
+
+    @Mock
     lateinit var factViewModel: FactViewModel
 
     lateinit var mTestScheduler: TestScheduler
 
-    private val ROWS = arrayListOf<Rows>(Rows("Title1", "Description1", ""),
-            Rows("Title1", "Description1", ""), Rows("Title1", "Description1", ""))
+    private val ROWS = arrayListOf<Row>(Row("Title1", "Description1", ""),
+            Row("Title1", "Description1", ""), Row("Title1", "Description1", ""))
 
-    private val EMPTY_ROWS = ArrayList<Rows>(0)
+    private val EMPTY_ROWS = ArrayList<Row>(0)
 
     @Before
     @Throws(Exception::class)
@@ -69,16 +69,16 @@ class FactViewModelTest {
     @Test
     fun testGetFactAPIcallSuccess() {
 
-        val apiEndpoints = RetrofitHelper.Companion.getInstance().create(APIInterface::class.java)
+        val apiEndpoints = RetrofitHelper.Companion.getInstance(context = context).create(APIInterface::class.java)
 
         val call = apiEndpoints.getALlFacts()
 
         try {
 
             val response = call.clone().execute()
-            val authResponse: FactsDto = response.body() as FactsDto
+            val authResponse: FactData = response.body() as FactData
 
-            assertTrue(authResponse != null && authResponse.rows != null && authResponse.title != null)
+            assertTrue(authResponse.rows != null && authResponse.title != null)
 
         } catch (e: IOException) {
             e.printStackTrace()

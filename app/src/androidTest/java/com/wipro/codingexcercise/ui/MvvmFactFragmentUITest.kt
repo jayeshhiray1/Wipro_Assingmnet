@@ -20,7 +20,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.wipro.codingexcercise.HomeActivity
 import com.wipro.codingexcercise.R
-import com.wipro.codingexcercise.adapter.ViewHolders.FactViewHolder
+import com.wipro.codingexcercise.adapter.FactViewHolder
+
 import com.wipro.codingexcercise.ui.mvvm.view.MvvmFactFragment
 import com.wipro.codingexcercise.utils.CommonUtility
 import org.hamcrest.CoreMatchers

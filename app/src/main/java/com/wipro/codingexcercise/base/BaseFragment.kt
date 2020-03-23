@@ -47,8 +47,6 @@ abstract class BaseFragment : Fragment() {
 
     protected abstract fun init()
 
-    protected abstract fun setOnClickListener()
-
     protected fun setLayout(layoutId: Int) {
         mLayoutId = layoutId
     }

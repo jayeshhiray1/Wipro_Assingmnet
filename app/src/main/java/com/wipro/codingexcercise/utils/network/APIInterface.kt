@@ -1,6 +1,6 @@
 package com.wipro.codingexcercise.utils.network
 
-import com.wipro.codingexcercise.model.FactsDto
+import com.wipro.codingexcercise.model.FactData
 import retrofit2.Call
 import retrofit2.http.GET
 
@@ -12,5 +12,5 @@ import retrofit2.http.GET
 interface APIInterface {
     //  https://dl.dropboxusercontent.com/s/2iodh4vg0eortkl/facts.json
     @GET("facts.json")
-    abstract fun getALlFacts(): Call<FactsDto>
+    abstract fun getALlFacts(): Call<FactData>
 }

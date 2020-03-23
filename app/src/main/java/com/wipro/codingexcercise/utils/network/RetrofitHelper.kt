@@ -1,7 +1,6 @@
 package com.wipro.codingexcercise.utils.network
 
 import android.content.Context
-import com.wipro.codingexcercise.app.MyApplication
 import com.wipro.codingexcercise.utils.Constants
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -17,20 +16,18 @@ class RetrofitHelper {
 
     companion object {
 
-        public fun getInstance(context: Context = MyApplication.getInstance()!!): Retrofit {
+        public fun getInstance(context: Context): Retrofit {
 
 
             val okHttpClient = OkHttpClient.Builder()
                     //  .cache(cache)
                     .build()
 
-            val retrofit = Retrofit.Builder()
+            return Retrofit.Builder()
                     .baseUrl(Constants.UrlConstants.BaseUrl)
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(okHttpClient)
                     .build()
-
-            return retrofit
         }
     }
 }

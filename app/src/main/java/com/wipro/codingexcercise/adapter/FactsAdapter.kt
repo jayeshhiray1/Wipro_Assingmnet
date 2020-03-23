@@ -1,52 +1,34 @@
 package com.wipro.codingexcercise.adapter
 
 import android.content.Context
-import android.os.Bundle
-import android.support.v4.app.FragmentManager
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.wipro.codingexcercise.R
-import com.wipro.codingexcercise.adapter.ViewHolders.FactViewHolder
-import com.wipro.codingexcercise.model.Rows
-import com.wipro.codingexcercise.ui.FactDetailsDialogFragment
-import com.wipro.codingexcercise.utils.Constants
+import com.wipro.codingexcercise.model.Row
+import com.wipro.codingexcercise.ui.mvvm.controller.FactClickListener
 
 /**
  * @author JA20049996
  * Recycler adapter to set the data to the list
  */
 
-class FactsAdapter(val listData: ArrayList<Rows>, val context: Context) : RecyclerView.Adapter<FactViewHolder>() {
-
-
-    var factDetailsDialogFragment: FactDetailsDialogFragment = FactDetailsDialogFragment()
-
-    var fragmentManager: FragmentManager? = (context as AppCompatActivity).supportFragmentManager
+class FactsAdapter( val context:Context,private val listData: ArrayList<Row>, private val factlistener: FactClickListener) : RecyclerView.Adapter<FactViewHolder>() {
 
     override fun onCreateViewHolder(container: ViewGroup, p1: Int): FactViewHolder {
         return FactViewHolder(LayoutInflater.from(context).inflate(R.layout.itemview_fact, container, false))
     }
 
     override fun onBindViewHolder(viewholder: FactViewHolder, position: Int) {
-        val rows = listData.get(position)
+        val rows = listData[position]
         viewholder.setData(rows)
-
         viewholder.itemView.setOnClickListener {
-            var bundle = Bundle()
-            bundle?.putParcelable(Constants.BundleKeys.KEY_FACT, rows)
-
-            factDetailsDialogFragment.arguments = bundle
-            factDetailsDialogFragment?.show(fragmentManager?.beginTransaction(), factDetailsDialogFragment?.tag)
+            factlistener.onFactClicklistener(rows)
         }
-
     }
-
     // Gets the number of animals in the list
     override fun getItemCount(): Int {
         return listData.size
     }
-
 }
 

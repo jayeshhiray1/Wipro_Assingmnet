@@ -3,13 +3,9 @@ package com.wipro.codingexcercise.ui.mvvm.viewmodel
 import android.app.Application
 import android.arch.lifecycle.*
 import android.content.Context
-import android.support.v4.app.FragmentActivity
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
-import android.util.Log
-import com.wipro.codingexcercise.HomeActivity
-import com.wipro.codingexcercise.app.MyApplication
-import com.wipro.codingexcercise.model.Rows
+import com.wipro.codingexcercise.model.Row
 import com.wipro.codingexcercise.ui.mvvm.controller.FactController
 import com.wipro.codingexcercise.ui.mvvm.controller.ViewModelInterface
 import com.wipro.codingexcercise.utils.CommonUtility
@@ -19,35 +15,27 @@ import java.util.*
  * @author JA20049996
  * View model Class
  */
-open class FactViewModel(application: Application) : AndroidViewModel(application),
+open class FactViewModel(application:Application) : AndroidViewModel(application),
         LifecycleObserver, ViewModelInterface {
 
     // observable FactList
-    private val factList: MutableLiveData<List<Rows>>
+    private val factList: MutableLiveData<List<Row>> = MutableLiveData()
 
     lateinit var mContext: Context
 
     // observable error message
-    private var message: MutableLiveData<String>
-    private var title: MutableLiveData<String>
+    private var message: MutableLiveData<String> = MutableLiveData()
+    private var title: MutableLiveData<String> = MutableLiveData()
 
     // model to get the data from the server
-    var factController: FactController
-
-    // initializer block in kotlin
-    init {
-        factList = MutableLiveData()
-        message = MutableLiveData()
-        title = MutableLiveData()
-        factController = FactController(application, this)
-    }
+    var factController: FactController = FactController(application,this)
 
     /**
      * this method is observer by the View and
      * update the view as per change in the List<Rows>
      * @return
      */
-    fun getfactListObservable(): LiveData<List<Rows>> {
+    fun getfactListObservable(): LiveData<List<Row>> {
         return factList
     }
 
@@ -80,7 +68,7 @@ open class FactViewModel(application: Application) : AndroidViewModel(applicatio
      * call back method we get from the controller after
      * successful fetching data from the server
      */
-    override fun setFacts(title: String, rowsList: ArrayList<Rows>) {
+    override fun setFacts(title: String, rowsList: ArrayList<Row>) {
 
         this.title.value = title
 
@@ -89,43 +77,10 @@ open class FactViewModel(application: Application) : AndroidViewModel(applicatio
         } else if ((rowsList != null && rowsList.size == 0) || TextUtils.isEmpty(title) || rowsList == null) {
             setMessage("Server Error, no data found")
         } else {
-            factList.value = rowsList
+            factList.value  =  rowsList.filter {
+                !TextUtils.isEmpty(it.title) && !TextUtils.isEmpty(it.description)
+            }
         }
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_ANY)
-    internal fun any() {
-
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    internal fun stop() {
-
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    internal fun onCreate() {
-        Log.i(TAG, "onCreate: ")
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    internal fun onStart() {
-        Log.i(TAG, "onStart: ")
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    internal fun onStop() {
-        Log.i(TAG, "onStop: ")
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-    internal fun onPause() {
-        Log.i(TAG, "onPause: ")
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    internal fun onResume() {
-        Log.i(TAG, "onResume: ")
     }
 
     companion object {

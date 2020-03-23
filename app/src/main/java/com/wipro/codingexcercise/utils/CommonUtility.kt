@@ -19,7 +19,6 @@ import android.provider.MediaStore
 import android.support.design.widget.Snackbar
 import android.support.v4.app.FragmentActivity
 import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
 import android.text.format.Formatter
 import android.util.DisplayMetrics
 import android.util.Log
@@ -126,7 +125,7 @@ class CommonUtility {
          * IS INTERNET AVAILABLE
          */
 
-        fun isInternetAvailable(activity: AppCompatActivity):Boolean{
+        fun isInternetAvailable(activity: FragmentActivity):Boolean{
             val connectivityManager=activity.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             val networkInfo=connectivityManager.activeNetworkInfo
             return  networkInfo!=null && networkInfo.isConnected
