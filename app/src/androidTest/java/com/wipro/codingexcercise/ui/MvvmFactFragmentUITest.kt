@@ -105,61 +105,6 @@ class MvvmFactFragmentUITest {
 
     }
 
-    /*   fun tapRecyclerViewItem(recyclerViewId: Int, position: Int) {
-         onView(withId(recyclerViewId)).perform(scrollToPosition(position))
-       onView(withRecyclerView(recyclerViewId).atPosition(position)).perform(click())
-
-         onView(withId(R.id.recyclerViewFact))
-                 .perform(RecyclerViewActions.scrollToPosition(activity.recyclerView.getAdapter().getItemCount() - 1));
-   } */
-
-
-/*
-    @Test
-    fun factList_CheckValueAtPosition() {
-
-        Espresso.onView(ViewMatchers.withId(R.id.recyclerViewFact)).perform(RecyclerViewActions.scrollToPosition<FactViewHolder>(1))
-        Espresso.onView(
-                CoreMatchers.allOf(ViewMatchers.withId(R.id.textViewTitle), ViewMatchers.withText("Flag")))
-
-        //special position
-        Espresso.onView(
-                CoreMatchers.allOf(ViewMatchers.withId(R.id.tv_repository_name),
-                        childAtPosition(
-                                CoreMatchers.allOf(ViewMatchers.withId(R.id.rl_item_container),
-                                        childAtPosition(
-                                                ViewMatchers.withId(R.id.rv_repositories_list),
-                                                3)), // if not visible will not pass // 3 is the position on screen not adapter
-                                0),
-                        ViewMatchers.isDisplayed())).check(ViewAssertions.matches(ViewMatchers.withText("Array")))
-    }
-
-    @Test
-    fun factList_CheckValueAtInvisiblePosition() {
-        //Special position using RecyclerViewActions
-        Espresso.onView(ViewMatchers.withId(R.id.recyclerViewFact)).perform(RecyclerViewActions.scrollToPosition<FactViewHolder>(1))
-        Espresso.onView(
-                CoreMatchers.allOf(ViewMatchers.withId(R.id.textViewTitle), ViewMatchers.withText("Flag")))
-
-        val recyclerView = repositoriesActivityRule.activity.findViewById(R.id.rv_repositories_list) as RecyclerView
-        assertTrue(recyclerView.adapter.itemCount > 0)
-    }
-
-    @Test
-    fun navigateToDetailsScreen() {
-
-        Espresso.onView(
-                CoreMatchers.allOf(ViewMatchers.withId(R.id.rv_repositories_list),
-                        childAtPosition(
-                                CoreMatchers.allOf(ViewMatchers.withId(R.id.swipe_container),
-                                        childAtPosition(
-                                                ViewMatchers.withClassName(CoreMatchers.`is`("android.widget.LinearLayout")),
-                                                0)),
-                                0),
-                        ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withId(R.id.rv_repositories_list)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, ViewActions.click()))
-
-    }*/
 
     private fun childAtPosition(
             parentMatcher: Matcher<View>, position: Int): Matcher<View> {

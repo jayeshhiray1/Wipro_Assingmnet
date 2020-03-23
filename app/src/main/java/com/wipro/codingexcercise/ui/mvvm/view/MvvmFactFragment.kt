@@ -12,28 +12,34 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.wipro.codingexcercise.R
 import com.wipro.codingexcercise.adapter.FactsAdapter
 import com.wipro.codingexcercise.base.BaseFragment
-import com.wipro.codingexcercise.model.Rows
+import com.wipro.codingexcercise.model.Row
+import com.wipro.codingexcercise.ui.FactDetailsDialogFragment
+import com.wipro.codingexcercise.ui.mvvm.controller.FactClickListener
 import com.wipro.codingexcercise.ui.mvvm.viewmodel.FactViewModel
 import com.wipro.codingexcercise.utils.CommonUtility
+import com.wipro.codingexcercise.utils.Constants
 import java.util.*
 
 /**
  * Class to show list of facts
  */
-class MvvmFactFragment : BaseFragment()  {
+class MvvmFactFragment : BaseFragment(), FactClickListener {
 
-    lateinit var factAdapter: FactsAdapter
-    var listData = ArrayList<Rows>()
-    lateinit var factViewModel: FactViewModel
+    private val factDetailsDialogFragment:FactDetailsDialogFragment by lazy {
+        FactDetailsDialogFragment()
+    }
+
+    private lateinit var factAdapter: FactsAdapter
+    private var listData = ArrayList<Row>()
+    private lateinit var factViewModel: FactViewModel
 
     // UI widgets declaration
-    lateinit var recyclerViewFact: RecyclerView
+    private lateinit var recyclerViewFact: RecyclerView
     //Pull to trefresh
-    lateinit var pullToRefresh: SwipeRefreshLayout
+    private lateinit var pullToRefresh: SwipeRefreshLayout
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -50,7 +56,8 @@ class MvvmFactFragment : BaseFragment()  {
         pullToRefresh = view.findViewById(R.id.pullToRefresh)
 
         init()
-        setOnClickListener()
+
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,8 +65,24 @@ class MvvmFactFragment : BaseFragment()  {
         retainInstance = true
 
         factViewModel = ViewModelProviders.of(this).get(FactViewModel::class.java)
+    }
 
-        if (CommonUtility.isInternetAvailable(activity as AppCompatActivity)) {
+    //initialization of adapter and other ui related things
+
+    public override fun init() {
+        recyclerViewFact.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+        factAdapter = FactsAdapter(Objects.requireNonNull<FragmentActivity>(activity),listData,this)
+        recyclerViewFact.adapter = factAdapter
+
+
+        pullToRefresh.setOnRefreshListener {
+            val bool = factViewModel.getFactListFromController()
+            if (!bool) {
+                pullToRefresh.isRefreshing = false
+            }
+        }
+
+        if (CommonUtility.isInternetAvailable(activity as AppCompatActivity) && listData.size == 0) {
             showProgressBar()
         } else {
             hideProgressBar()
@@ -67,10 +90,15 @@ class MvvmFactFragment : BaseFragment()  {
 
         factViewModel.setContextAndFetchData(activity as Context)
 
-        with(factViewModel){
-            subscribeFactList(this)
-            subscribeToErrorMessage(this)
-            subscribeTitle(this)
+        if(listData.size == 0) {
+            with(factViewModel) {
+                subscribeFactList(this)
+                subscribeToErrorMessage(this)
+                subscribeTitle(this)
+            }
+        }
+        else{
+            updateRecyclerView(listData)
         }
 
         lifecycle.addObserver(factViewModel)
@@ -83,30 +111,6 @@ class MvvmFactFragment : BaseFragment()  {
 
     }
 
-    //initialization of adapter and other ui related things
-
-    public override fun init() {
-        recyclerViewFact.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-        factAdapter = FactsAdapter(listData, Objects.requireNonNull<FragmentActivity>(activity))
-        recyclerViewFact.adapter = factAdapter
-
-
-        pullToRefresh.setOnRefreshListener {
-
-            Toast.makeText(activity, getString(R.string.loading),
-                    Toast.LENGTH_SHORT).show()
-
-            val bool = factViewModel.getFactListFromController()
-            if (!bool) {
-                pullToRefresh.isRefreshing = false
-            }
-        }
-    }
-
-    public override fun setOnClickListener() {
-
-    }
-
     /**
      *
      * @param factViewModel
@@ -115,19 +119,22 @@ class MvvmFactFragment : BaseFragment()  {
      */
     private fun subscribeFactList(factViewModel: FactViewModel) {
         factViewModel.getfactListObservable().observe(this, Observer { rows ->
-            pullToRefresh.isRefreshing = false
-            listData.clear()
-            assert(rows != null)
-            listData.addAll(rows!!)
-            factAdapter.notifyDataSetChanged()
-            hideProgressBar()
-            showBaseError("")
+            updateRecyclerView(rows)
         })
+    }
+
+    fun updateRecyclerView(rows: List<Row>?) {
+        pullToRefresh.isRefreshing = false
+        listData.clear()
+        rows?.let { listData.addAll(it) }
+        factAdapter.notifyDataSetChanged()
+        hideProgressBar()
+        showBaseError("")
     }
 
     private fun subscribeTitle(factViewModel: FactViewModel) {
         factViewModel.getTitleObservable().observe(this, Observer { title ->
-           activity!!.setTitle(title)
+            activity?.title = title
         })
     }
 
@@ -143,5 +150,14 @@ class MvvmFactFragment : BaseFragment()  {
 
         val instance: MvvmFactFragment
             get() = MvvmFactFragment()
+    }
+
+    override fun onFactClicklistener(rows: Row) {
+        if (!factDetailsDialogFragment.isAdded) {
+            val bundle = Bundle()
+            bundle.putParcelable(Constants.BundleKeys.KEY_FACT, rows)
+            factDetailsDialogFragment.arguments = bundle
+            factDetailsDialogFragment.show(fragmentManager, factDetailsDialogFragment.tag)
+        }
     }
 }

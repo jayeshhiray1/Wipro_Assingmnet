@@ -55,7 +55,9 @@ open class FactController(context: Context, private val viewModelInterface: View
 
             override fun onFailure(call: Call<FactsDto>, t: Throwable) {
                 Log.i(TAG, "onFailure: $call")
-                viewModelInterface.setMessage("Error getting response")
+                if (call == null) {
+                    viewModelInterface.setMessage("Error getting response")
+                }
             }
 
         })

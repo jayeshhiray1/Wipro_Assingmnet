@@ -45,7 +45,6 @@
         android:layout_height="@dimen/dimen_200dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:scaleType="fitXY"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <android.support.v7.widget.AppCompatTextView

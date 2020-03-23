@@ -29,8 +29,6 @@ class FactViewModelTest {
     @Mock
     lateinit var factViewModel: FactViewModel
 
-   // private val testSubscriber = TestSubscriber.create<String>()
-
     lateinit var mTestScheduler: TestScheduler
 
     private val ROWS = arrayListOf<Rows>(Rows("Title1", "Description1", ""),
