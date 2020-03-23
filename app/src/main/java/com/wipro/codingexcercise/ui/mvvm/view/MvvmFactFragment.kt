@@ -76,6 +76,7 @@ class MvvmFactFragment : BaseFragment(), FactClickListener {
 
 
         pullToRefresh.setOnRefreshListener {
+            hideProgressBar()
             val bool = factViewModel.getFactListFromController()
             if (!bool) {
                 pullToRefresh.isRefreshing = false
